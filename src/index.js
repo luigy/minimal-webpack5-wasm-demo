@@ -52,11 +52,14 @@ const appendAndSubmit = async (txCBOR, witnessSetCBOR) => {
   const tx = Transaction.from_bytes(
     Buffer.from(txCBOR, 'hex')
   );
-  const witnessSet = TransactionWitnessSet.from_bytes(
+  const initWitnessSet = tx.witness_set();
+  const signedWitnessSet = TransactionWitnessSet.from_bytes(
     Buffer.from(witnessSetCBOR, 'hex')
   );
+	// TODO: Ensure initial vkeys are included
+  initWitnessSet.set_vkeys(signedWitnessSet.vkeys());
 
-  const transaction = Transaction.new(tx.body(), witnessSet);
+  const transaction = Transaction.new(tx.body(), initWitnessSet);
   const txHash = await window.cardano.submitTx(
     Buffer.from(transaction.to_bytes(), 'hex').toString('hex')
   );
