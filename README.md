@@ -26,3 +26,12 @@ index.js:18 1
 index.js:19 2
 index.js:20 6
 ```
+
+FOR NIX USERS
+
+```
+$nix-shell
+$npm install --save-dev webpack
+$npm install --save-dev webpack-cli
+$yarn webpack
+```
